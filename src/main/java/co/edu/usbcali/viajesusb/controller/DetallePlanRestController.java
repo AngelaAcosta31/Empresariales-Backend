@@ -40,6 +40,7 @@ public class DetallePlanRestController {
 	@Autowired
 	private DetallePlanService detallePlanService;
 	
+	
 	@Autowired
 	private DetallePlanMapper detallePlanMapper;
 	
