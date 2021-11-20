@@ -31,6 +31,6 @@ public interface TipoDestinoMapper {
 	public TipoDestinoDTO tipoDestinoToTipoDestinoDTO(TipoDestino tipoDestino);
 	public List<TipoDestinoDTO> listTipoDestinoToListTipoDestinoDTO(List<TipoDestino> listaTipoDestino);
 	
-	//public TipoDestino tipoDestinoDTOToTipoDestino(TipoDestinoDTO tipoDestinoDTO);
+	public TipoDestino tipoDestinoDTOToTipoDestino(TipoDestinoDTO tipoDestinoDTO);
 	//public List<TipoDestino> listTipoDestinoDTOToListTipoDestino(List<TipoDestinoDTO> listaTipoDestinoDTO);
 }

@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 
+
 import co.edu.usbcali.viajesusb.domain.Usuario;
 import co.edu.usbcali.viajesusb.dto.UsuarioDTO;
 
@@ -28,6 +29,7 @@ import co.edu.usbcali.viajesusb.dto.UsuarioDTO;
 public interface UsuarioMapper {
 	
     public UsuarioDTO usuarioToUsuarioDTO(Usuario usuario);
+    public Usuario usuarioDTOToUsuario(UsuarioDTO usuarioDTO);
     public List<UsuarioDTO> listUsuarioToListUsuarioDTO(List<Usuario> usuarios);
 
 }

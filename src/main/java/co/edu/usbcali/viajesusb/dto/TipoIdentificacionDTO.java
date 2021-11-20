@@ -37,6 +37,6 @@ public class TipoIdentificacionDTO implements Serializable {
 	private String usuModificador;
 	private String estado;
 	
-	private Integer idTipoIdentificacionORM;
+	//private Integer idTipoIdentificacionORM;
 
 }

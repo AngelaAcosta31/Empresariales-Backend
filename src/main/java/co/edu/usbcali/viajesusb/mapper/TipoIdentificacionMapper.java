@@ -13,7 +13,6 @@ package co.edu.usbcali.viajesusb.mapper;
 import java.util.List;
 
 import org.mapstruct.Mapper;
-import org.springframework.web.bind.annotation.Mapping;
 
 import co.edu.usbcali.viajesusb.domain.TipoIdentificacion;
 import co.edu.usbcali.viajesusb.dto.TipoIdentificacionDTO;
@@ -30,5 +29,6 @@ public interface TipoIdentificacionMapper {
 
 	//@Mapping(source ="idTipoIdentificacion", target="idTipoIdentificacionORM")
 	 public TipoIdentificacionDTO tipoIdentificacionToTipoIdentificacionDTO(TipoIdentificacion tipoIdentificacion);
+	 public TipoIdentificacion tipoIdentificacionDTOToTipoIdentificacion(TipoIdentificacionDTO tipoIdentificacionDTO);
 	 public List<TipoIdentificacionDTO> listTipoIdentificacionToListTipoIdentificacionDTO(List<TipoIdentificacion> tipoIdentificaciones);
 }
