@@ -11,13 +11,17 @@
 package co.edu.usbcali.viajesusb;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+
 import co.edu.usbcali.viajesusb.domain.Plan;
 import co.edu.usbcali.viajesusb.dto.PlanDTO;
 import co.edu.usbcali.viajesusb.service.PlanService;
@@ -133,5 +137,53 @@ class PlanTest {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
+	}
+	@Test
+	@Transactional
+	void consultarPorValor() {
+		List<Plan>listaPlan = null;
+		try {
+			listaPlan = planService.findByValorTotal(0.0);
+			for(Plan plan : listaPlan) {
+				System.out.println(plan.getIdPlan()+ "-"+ plan.getCodigo()+"-"+ plan.getNombre() + "-" + plan.getValorTotal()+"-"+ plan.getEstado());			
+			}
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	@Test
+	@Transactional
+	void consultarPorPersonas() {
+		List<Plan>listaPlan = null;
+		try {
+			listaPlan = planService.findByCantidadPersonas(0);
+			for(Plan plan : listaPlan) {
+				System.out.println(plan.getIdPlan()+ "-"+ plan.getCodigo()+"-"+ plan.getNombre() + "-" + plan.getValorTotal()+"-"+ plan.getCantidadPersonas());			
+			}
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	@Transactional
+	void debeConsultarViajePorRangosDeFechaInicioViaje() {
+		List<Plan> listaPlan = null;
+		Calendar fechaInicio = new GregorianCalendar(2021,9,4);
+		Calendar fechaFinal = new GregorianCalendar(2022,1,4);
+			try {
+				listaPlan = planService.findByFechaInicioViajeBetween(fechaInicio.getTime(),fechaFinal.getTime());
+				for (Plan plan : listaPlan) {
+					System.out.println(plan.getNombre()+ " " + plan.getCodigo()+" - "+ plan.getFechaInicioViaje());
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 	}
 }

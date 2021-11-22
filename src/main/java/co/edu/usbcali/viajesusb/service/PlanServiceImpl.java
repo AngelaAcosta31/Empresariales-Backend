@@ -11,6 +11,8 @@
 package co.edu.usbcali.viajesusb.service;
 
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +99,31 @@ public class PlanServiceImpl implements PlanService{
 		}
 		return planes;
 	}
+	
+	@Override
+	public List<Plan> findByValorTotal(Double valorTotal) throws Exception {
+		List<Plan> listaPlan = null;
+		if(valorTotal==null) {
+			throw new Exception("Debe ingresar un valor");
+		}
+		if(valorTotal <0) {
+			throw new Exception("Debe ingresar valores positivos.");
+		}
+		listaPlan = planRepository.findByValorTotal(valorTotal);
+		return listaPlan;
+	}
+	
+	@Override
+	public List<Plan> findByCantidadPersonas(Integer personas) throws Exception {
+		List<Plan> listaPlan = null;
+		if(personas <0) {
+			throw new Exception("Debe ingresar valores positivos.");
+		}
+		listaPlan = planRepository.findByCantidadPersonas(personas);
+		return listaPlan;
+	}
+	
+	
 	//TODO:CRUD
 	@Override
 	public Plan guardarPlan(PlanDTO planDTO) throws Exception{
@@ -302,6 +329,37 @@ public class PlanServiceImpl implements PlanService{
 		});
 
 		planRepository.deleteById(idPlan);
+	}
+	
+	/**   
+	 * <p>Title: findByFechaViajeBetween</p>   
+	 * <p>Description: </p>   
+	 * @param fechaInicioViaje
+	 * @param fechaFinViaje
+	 * @return
+	 * @throws Exception   
+	 * @see co.edu.usbcali.viajesusb.service.PlanService#findByFechaViajeBetween(java.util.Date, java.util.Date)   
+	 */
+	
+	@Override
+	public List<Plan> findByFechaInicioViajeBetween(Date fechaInicioViaje, Date fechaFinViaje) throws Exception {
+		List<Plan> listaPlan = null;
+		if(fechaInicioViaje == null || fechaFinViaje==null || (fechaInicioViaje == null && fechaFinViaje == null)) {
+			throw new Exception("Debe ingresar un rango de fechas.");
+		}
+
+		if(fechaInicioViaje.compareTo(fechaFinViaje)==0) {
+			throw new Exception("La fecha inicial no puede ser igual a la fecha final.");
+		}
+		if(fechaInicioViaje.compareTo(fechaFinViaje)>0) {
+			throw new Exception("Debe ingresar un rango de fechas valido, la fecha final no puede ser menor que la fecha inicial.");
+		}
+		listaPlan = planRepository.findByFechaInicioViajeBetween(fechaInicioViaje,fechaFinViaje);
+		if(listaPlan.isEmpty()) {
+			throw new Exception("No se encontraron viajes con en ese rango de fechas.");
+		}
+		
+		return listaPlan;
 	}
 
 

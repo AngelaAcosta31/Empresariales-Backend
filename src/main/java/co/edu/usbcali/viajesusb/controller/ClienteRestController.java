@@ -49,14 +49,16 @@ public class ClienteRestController {
 	private ClienteService clienteService;
 	@Autowired
 	private ClienteMapper clienteMapper;
-	
+
+	String mensaje = "";
 	@PostMapping("/guardarCliente")
 	public ResponseEntity<ClienteDTO> guardarCliente(@RequestBody ClienteDTO clienteDTO){
 		try {
 			Cliente cliente = clienteService.guardarCliente(clienteDTO);
 			return ResponseEntity.ok(clienteMapper.clienteToClienteDTO(cliente));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	@PutMapping("/actualizarCliente")
@@ -67,7 +69,8 @@ public class ClienteRestController {
 			return ResponseEntity.ok(clienteMapper.clienteToClienteDTO(cliente));
 		} catch (Exception e) {
 			// TODO: handle exception
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -77,7 +80,9 @@ public class ClienteRestController {
 			clienteService.eliminarCliente(id);
 			return ResponseEntity.ok("Se eliminó satisfactoriamente");
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			//return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -89,7 +94,9 @@ public class ClienteRestController {
 			return ResponseEntity.ok().body(clienteMapper.clienteToClienteDTO(cliente));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			//return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -105,8 +112,9 @@ public class ClienteRestController {
 			return ResponseEntity.ok().body(clienteMapper.listClienteToListClienteDTO(listaCliente));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-			
+			//return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	@GetMapping("/verPorTipoIdentificacion")
@@ -120,8 +128,9 @@ public class ClienteRestController {
 			return ResponseEntity.ok().body(clienteMapper.listClienteToListClienteDTO(listaCliente));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-			
+			//return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -132,7 +141,8 @@ public class ClienteRestController {
 			return ResponseEntity.ok().body(clienteMapper.clienteToClienteDTO(cliente));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje,HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -144,7 +154,8 @@ public class ClienteRestController {
 			return ResponseEntity.ok().body(clienteMapper.listClienteToListClienteDTO(listacliente));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -155,8 +166,8 @@ public class ClienteRestController {
 			return ResponseEntity.ok().body(clienteMapper.clienteToClienteDTO(cliente));
 		} catch (Exception e) {
 			//retorna un error 500
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -166,8 +177,9 @@ public class ClienteRestController {
 			List<Cliente> listacliente=  clienteService.findByNombreIgnoreCaseLike(nombre);
 			return ResponseEntity.ok().body(clienteMapper.listClienteToListClienteDTO(listacliente));
 		} catch (Exception e) {
-			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -185,11 +197,11 @@ public class ClienteRestController {
 			List<Cliente> listacliente=  clienteService.findByFechaNacimientoBetween(fechaInici, fechaFin);
 			return ResponseEntity.ok().body(clienteMapper.listClienteToListClienteDTO(listacliente));
 		} catch (Exception e) {
-			//retorna un error 500
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-			
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
+			
+		
 	}
 
 	@GetMapping("/coutEstado")
@@ -198,9 +210,8 @@ public class ClienteRestController {
 			Long cliente=  clienteService.countByEstado(estado);
 			return ResponseEntity.ok().body(cliente);
 		} catch (Exception e) {
-			//retorna un error 500
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -211,8 +222,8 @@ public class ClienteRestController {
 			List<Cliente> listacliente=  clienteService.findByPrimerApellidoOrSegundoApellido(primerApellido, segundoApellido);
 			return ResponseEntity.ok().body(clienteMapper.listClienteToListClienteDTO(listacliente));
 		} catch (Exception e) {
-			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -223,8 +234,8 @@ public class ClienteRestController {
 			Cliente listacliente=  clienteService.findByNumeroIdentificacionAndEstado(numeroIdentificacion, estado);
 			return ResponseEntity.ok().body(clienteMapper.clienteToClienteDTO(listacliente));
 		} catch (Exception e) {
-			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}

@@ -44,7 +44,7 @@ public class TipoDestinoRestController {
 	@Autowired
 	private TipoDestinoMapper tipoDestinoMapper;
 	//http://localhost:9090/api/tipoDestino/getTipoDestinoPorCodigo/BOSQU
-	
+	String mensaje;
 	
 	@PostMapping("/guardarTipoDestino")
 	public ResponseEntity<TipoDestinoDTO> guardarTipoDestino(@RequestBody TipoDestinoDTO tipoDestinoDTO){
@@ -52,7 +52,9 @@ public class TipoDestinoRestController {
 			TipoDestino tipoDestino = tipoDestinoService.guardarTipoDestino(tipoDestinoDTO);
 			return ResponseEntity.ok(tipoDestinoMapper.tipoDestinoToTipoDestinoDTO(tipoDestino));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			//return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -64,7 +66,8 @@ public class TipoDestinoRestController {
 			return ResponseEntity.ok(tipoDestinoMapper.tipoDestinoToTipoDestinoDTO(tipoDestino));
 		} catch (Exception e) {
 			// TODO: handle exception
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -74,7 +77,8 @@ public class TipoDestinoRestController {
 			tipoDestinoService.eliminarTipoDestino(id);
 			return ResponseEntity.ok("Se eliminó satisfactoriamente");
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -98,7 +102,8 @@ public class TipoDestinoRestController {
 			return ResponseEntity.ok().body(tipoDestinoMapper.tipoDestinoToTipoDestinoDTO(tipoDestino));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();	
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -110,7 +115,8 @@ public class TipoDestinoRestController {
 			return ResponseEntity.ok().body(tipoDestinoMapper.tipoDestinoToTipoDestinoDTO(tipoDestino));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();	
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	@GetMapping("/getTiposDestinosPorEstado")
@@ -120,7 +126,8 @@ public class TipoDestinoRestController {
 			return ResponseEntity.ok().body(tipoDestinoMapper.listTipoDestinoToListTipoDestinoDTO(listaTipoDestino));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -133,7 +140,8 @@ public class TipoDestinoRestController {
 			return ResponseEntity.ok().body(tipoDestinoMapper.tipoDestinoToTipoDestinoDTO(tipoDestino));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();	
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 }

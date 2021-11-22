@@ -46,13 +46,17 @@ public class UsuarioRestController {
 	@Autowired
 	private UsuarioMapper usuarioMapper;
 	
+	String mensaje;
+	
 	@PostMapping("/guardarUsuario")
 	public ResponseEntity<UsuarioDTO> guardarUsuario(@RequestBody UsuarioDTO usuarioDTO){
 		try {
 			Usuario usuario = usuarioService.guardarUsuario(usuarioDTO);
 			return ResponseEntity.ok(usuarioMapper.usuarioToUsuarioDTO(usuario));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			//return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -64,7 +68,8 @@ public class UsuarioRestController {
 			return ResponseEntity.ok(usuarioMapper.usuarioToUsuarioDTO(usuario));
 		} catch (Exception e) {
 			// TODO: handle exception
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -74,7 +79,8 @@ public class UsuarioRestController {
 			usuarioService.eliminarUsuario(id);
 			return ResponseEntity.ok("Se eliminó satisfactoriamente");
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -96,9 +102,8 @@ public class UsuarioRestController {
 			Usuario usuario=  usuarioService.findByIdentificacion(numeroIdentificacion);
 			return ResponseEntity.ok().body(usuarioMapper.usuarioToUsuarioDTO(usuario));
 		} catch (Exception e) {
-			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-			
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);		
 		}
 	}
 	
@@ -108,9 +113,8 @@ public class UsuarioRestController {
 			List<Usuario> usuario=  usuarioService.findByEstado(estado);
 			return ResponseEntity.ok().body(usuarioMapper.listUsuarioToListUsuarioDTO(usuario));
 		} catch (Exception e) {
-			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-			
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);			
 		}
 	}
 	@GetMapping("/findByLogin")
@@ -119,9 +123,8 @@ public class UsuarioRestController {
 			Usuario usuario=  usuarioService.findByLogin(login);
 			return ResponseEntity.ok().body(usuarioMapper.usuarioToUsuarioDTO(usuario));
 		} catch (Exception e) {
-			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-			
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);			
 		}
 	}
 	
@@ -131,9 +134,8 @@ public class UsuarioRestController {
 			Usuario usuario=  usuarioService.findByLoginAndEstado(login,estado);
 			return ResponseEntity.ok().body(usuarioMapper.usuarioToUsuarioDTO(usuario));
 		} catch (Exception e) {
-			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-			
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);			
 		}
 	}
 

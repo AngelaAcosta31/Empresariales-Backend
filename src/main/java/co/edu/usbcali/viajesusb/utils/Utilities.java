@@ -64,6 +64,27 @@ public class Utilities {
 		return esEnt;
 		
 	}
+	public static boolean notStringInteger(String palabra) {
+		String n = ".*[A-Z].*";
+		return palabra.matches(n);
+	}
+	
+	public static boolean soN(String palabra) {
+		if(palabra.equalsIgnoreCase("s") || palabra.equalsIgnoreCase("n")) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	public static boolean estadoAoI(String palabra) {
+		if(palabra.equalsIgnoreCase("a") || palabra.equalsIgnoreCase("i")) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 
 	/**
 	 * 

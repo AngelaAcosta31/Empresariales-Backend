@@ -131,5 +131,24 @@ class TipoIdentificacionTest {
 		}
 	}
 
+	
+	@Test
+	@Transactional
+	void debeConsultarTipoIdPorNombre() {
+		List<TipoIdentificacion> listaTipoId=null;
+		
+		try {
+			
+			listaTipoId = tipoIdentificacionService.findByNombreIgnoreCase("ce");
+			for (TipoIdentificacion tipoIdentificacion : listaTipoId) {
+				//System.out.println(clientes.toString());
+				System.out.println(tipoIdentificacion.getCodigo() + " - "+ tipoIdentificacion.getNombre());
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
 
 }

@@ -10,6 +10,10 @@
 
 package co.edu.usbcali.viajesusb.repository;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
@@ -24,6 +28,9 @@ import co.edu.usbcali.viajesusb.domain.DetallePlan;
  */
 
 public interface DetallePlanRepository extends JpaRepository<DetallePlan, Long>{
-
 	
+	
+	public List <DetallePlan> findByCantidadNoches(Integer noches) throws Exception;
+	public List <DetallePlan> findByValor(Double noches) throws Exception;
+	public Page <DetallePlan> findByEstado(String estado, Pageable pageable) throws Exception;
 }

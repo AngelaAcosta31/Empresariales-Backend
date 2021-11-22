@@ -121,6 +121,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 			throw new Exception("El login debe contener menos de 10 caracteres.");
 		}
 		usuario = usuarioRepository.findByLogin(login.toUpperCase());
+//		if(usuario == null) {
+//			throw new Exception("No se encontraron usuarios con ese login");
+//		}
 		return usuario;
 	}
 
@@ -136,6 +139,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 			throw new Exception("Debe ingresar una letra y no un numero para el estado.");
 		}
 		usuario = usuarioRepository.findByLoginAndEstado(login.toUpperCase(), estado.toUpperCase());
+		if(usuario == null) {
+			throw new Exception("No se encontraron usuarios con ese login y estado");
+		}
 		return usuario;
 	}
 	//TODO:CRUD
@@ -161,7 +167,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 			throw new Exception("Digite un nombre valido.");
 		}
 		if (usuarioDTO.getIdentificacion() == null || usuarioDTO.getIdentificacion().trim().equals("")
-				|| Utilities.isStringLenght(usuarioDTO.getIdentificacion(), Constantes.TAMANONOMBRE)
+				|| Utilities.isStringLenght(usuarioDTO.getIdentificacion(), Constantes.TAMANOIDENTIFICACION)
 				|| Utilities.isStringInteger(usuarioDTO.getIdentificacion()) ||Utilities.isSpecialCaracter(usuarioDTO.getIdentificacion())) {
 			throw new Exception("Digite un numero de identificacion valido.");
 		}
@@ -174,8 +180,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 		if (usuarioDTO.getEstado() == null || usuarioDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(usuarioDTO.getEstado(), Constantes.TAMANNOESTADO) ||
-				!Utilities.isStringInteger(usuarioDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(usuarioDTO.getEstado()) || !Utilities.estadoAoI(usuarioDTO.getEstado())) {
+			throw new Exception("Estado invalido, solo se acepta A o I.");
 		}
 		
 	
@@ -222,7 +228,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 			throw new Exception("Digite un nombre valido.");
 		}
 		if (usuarioDTO.getIdentificacion() == null || usuarioDTO.getIdentificacion().trim().equals("")
-				|| Utilities.isStringLenght(usuarioDTO.getIdentificacion(), Constantes.TAMANONOMBRE)
+				|| Utilities.isStringLenght(usuarioDTO.getIdentificacion(), Constantes.TAMANOIDENTIFICACION)
 				|| Utilities.isStringInteger(usuarioDTO.getIdentificacion()) ||Utilities.isSpecialCaracter(usuarioDTO.getIdentificacion())) {
 			throw new Exception("Digite un numero de identificacion valido.");
 		}
@@ -235,8 +241,8 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 		if (usuarioDTO.getEstado() == null || usuarioDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(usuarioDTO.getEstado(), Constantes.TAMANNOESTADO) ||
-				!Utilities.isStringInteger(usuarioDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(usuarioDTO.getEstado()) || !Utilities.estadoAoI(usuarioDTO.getEstado())) {
+			throw new Exception("Estado invalido, solo se acepta A o I.");
 		}
 		
 		usuario = findById(usuarioDTO.getIdUsuario());

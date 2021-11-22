@@ -63,4 +63,5 @@ public interface TipoIdentificacionRepository extends JpaRepository<TipoIdentifi
 	 * @throws
 	 */
 	public TipoIdentificacion findByCodigo(String codigo)  throws Exception;
+	public List<TipoIdentificacion> findByNombreIgnoreCase(String nombre) throws Exception;
 }

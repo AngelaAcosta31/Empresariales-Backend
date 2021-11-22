@@ -17,6 +17,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+
 import co.edu.usbcali.viajesusb.domain.TipoIdentificacion;
 import co.edu.usbcali.viajesusb.dto.TipoIdentificacionDTO;
 import co.edu.usbcali.viajesusb.repository.TipoIdentificacionRepository;
@@ -138,10 +139,10 @@ public class TipoIdentificacionServiceImpl implements TipoIdentificacionService 
 			throw new Exception("Debe ingresar un codigo con 5 caracteres o menos.");
 		}
 		if(!Utilities.isStringInteger(codigo)) {
-			throw new Exception("No debe contener numeros.");
+			throw new Exception("El codigo no debe contener numeros.");
 		}
 		tipoIdentificacion = tipoIdentificacionRepository.findByCodigo(codigo.toUpperCase());
-//		if(tipoIdentificacion != null) {
+//		if(tipoIdentificacion == null) {
 //			throw new Exception("No se encontraron tipos de identificación con ese codigo.");
 //		}
 		return tipoIdentificacion;
@@ -175,8 +176,8 @@ public class TipoIdentificacionServiceImpl implements TipoIdentificacionService 
 		}
 		if (tipoIdentificacionDTO.getEstado() == null || tipoIdentificacionDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(tipoIdentificacionDTO.getEstado(), Constantes.TAMANNOESTADO) || 
-				!Utilities.isStringInteger(tipoIdentificacionDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(tipoIdentificacionDTO.getEstado())|| !Utilities.estadoAoI(tipoIdentificacionDTO.getEstado())) {
+			throw new Exception("Estado invalido, debe ser A o I.");
 		}
 		
 		
@@ -226,8 +227,8 @@ public class TipoIdentificacionServiceImpl implements TipoIdentificacionService 
 		}
 		if (tipoIdentificacionDTO.getEstado() == null || tipoIdentificacionDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(tipoIdentificacionDTO.getEstado(), Constantes.TAMANNOESTADO) || 
-				!Utilities.isStringInteger(tipoIdentificacionDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(tipoIdentificacionDTO.getEstado())|| !Utilities.estadoAoI(tipoIdentificacionDTO.getEstado())) {
+			throw new Exception("Estado invalido, debe ser A o I..");
 		}
 		
 		tipoIdentificacion = findById(tipoIdentificacionDTO.getIdTipoIdentificacion());
@@ -260,6 +261,33 @@ public class TipoIdentificacionServiceImpl implements TipoIdentificacionService 
 		});
 
 		tipoIdentificacionRepository.deleteById(idTipoIdentificacion);
+	}
+
+	
+	/**   
+	 * <p>Title: findByNombreIgnoreCase</p>   
+	 * <p>Description: </p>   
+	 * @param nombre
+	 * @return
+	 * @throws Exception   
+	 * @see co.edu.usbcali.viajesusb.service.TipoIdentificacionService#findByNombreIgnoreCase(java.lang.String)   
+	 */
+	
+	@Override
+	public List<TipoIdentificacion> findByNombreIgnoreCase(String nombre) throws Exception {
+		List<TipoIdentificacion> listaTipoId=null;
+		if(nombre ==null || nombre.trim().equals("")) {
+			throw new Exception("Debe ingresar un nombre.");
+		}
+		if(Utilities.isStringLenght(nombre,Constantes.TAMANONOMBRE)) {
+			throw new Exception("Debe ingresar un nombre con menos de 100 caracteres.");
+		}
+		
+		listaTipoId = tipoIdentificacionRepository.findByNombreIgnoreCase(nombre.toUpperCase());
+		if(listaTipoId.isEmpty()) {
+			throw new Exception("No se encontraron tipos de identificación con ese nombre.");
+		}
+		return listaTipoId;
 	}
 	
 }

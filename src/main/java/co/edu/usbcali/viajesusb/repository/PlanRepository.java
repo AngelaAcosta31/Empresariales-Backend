@@ -12,6 +12,9 @@ package co.edu.usbcali.viajesusb.repository;
 
 
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
@@ -51,5 +54,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long>{
 	
 	public Plan findByCodigoAndEstado(String codigo, String estado);
 	
-	
+	public List<Plan> findByValorTotal(Double valorTotal)throws Exception;
+	public List<Plan> findByCantidadPersonas(Integer personas)throws Exception;
+	public List<Plan> findByFechaInicioViajeBetween(Date fechaInicioViaje, Date fechaFinViaje) throws Exception;
 }

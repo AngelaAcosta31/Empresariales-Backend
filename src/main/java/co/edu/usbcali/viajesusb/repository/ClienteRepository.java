@@ -114,7 +114,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long>{
 	 */
 	
 	public Long countByEstado(String estado);
-
+	
 	public long count();
 	/**
 	 * 

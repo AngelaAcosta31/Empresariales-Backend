@@ -198,18 +198,18 @@ public class DestinoServiceImpl implements DestinoService {
 	
 		if (destinoDTO.getAire() == null || destinoDTO.getAire().trim().equals("") ||
 				Utilities.isStringLenght(destinoDTO.getAire(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(destinoDTO.getAire())) {
+				!Utilities.isStringInteger(destinoDTO.getAire())|| !Utilities.soN(destinoDTO.getAire())) {
 			throw new Exception("Debe ingresar una S o una N en este campo.");
 		}
 		if (destinoDTO.getTierra() == null || destinoDTO.getTierra().trim().equals("") ||
 				Utilities.isStringLenght(destinoDTO.getTierra(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(destinoDTO.getTierra())) {
+				!Utilities.isStringInteger(destinoDTO.getTierra()) || !Utilities.soN(destinoDTO.getTierra())) {
 			throw new Exception("Debe ingresar una S o una N en este campo.");
 		}
 
 		if (destinoDTO.getMar() == null || destinoDTO.getMar().trim().equals("") ||
 				Utilities.isStringLenght(destinoDTO.getMar(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(destinoDTO.getMar())) {
+				!Utilities.isStringInteger(destinoDTO.getMar())|| !Utilities.soN(destinoDTO.getMar())) {
 			throw new Exception("Debe ingresar una S o una N en este campo.");
 		}
 		if (destinoDTO.getCodigo() == null || destinoDTO.getCodigo().trim().equals("") ||
@@ -229,8 +229,8 @@ public class DestinoServiceImpl implements DestinoService {
 		}
 		if (destinoDTO.getEstado() == null || destinoDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(destinoDTO.getEstado(), Constantes.TAMANNOESTADO) || 
-				!Utilities.isStringInteger(destinoDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(destinoDTO.getEstado())|| !Utilities.estadoAoI(destinoDTO.getEstado())) {
+			throw new Exception("Estado invalido, debe ser A o I.");
 		}
 		
 		if (destinoDTO.getFechaCreacion() == null) {
@@ -287,18 +287,18 @@ public class DestinoServiceImpl implements DestinoService {
 		}
 		if (destinoDTO.getAire() == null || destinoDTO.getAire().trim().equals("") ||
 				Utilities.isStringLenght(destinoDTO.getAire(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(destinoDTO.getAire())) {
+				!Utilities.isStringInteger(destinoDTO.getAire())|| !Utilities.soN(destinoDTO.getAire())) {
 			throw new Exception("Debe ingresar una S o una N en este campo.");
 		}
 		if (destinoDTO.getTierra() == null || destinoDTO.getTierra().trim().equals("") ||
 				Utilities.isStringLenght(destinoDTO.getTierra(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(destinoDTO.getTierra())) {
+				!Utilities.isStringInteger(destinoDTO.getTierra())|| !Utilities.soN(destinoDTO.getTierra())) {
 			throw new Exception("Debe ingresar una S o una N en este campo.");
 		}
 
 		if (destinoDTO.getMar() == null || destinoDTO.getMar().trim().equals("") ||
 				Utilities.isStringLenght(destinoDTO.getMar(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(destinoDTO.getMar())) {
+				!Utilities.isStringInteger(destinoDTO.getMar())|| !Utilities.soN(destinoDTO.getMar())) {
 			throw new Exception("Debe ingresar una S o una N en este campo.");
 		}
 		if (destinoDTO.getCodigo() == null || destinoDTO.getCodigo().trim().equals("") ||
@@ -318,8 +318,8 @@ public class DestinoServiceImpl implements DestinoService {
 		}
 		if (destinoDTO.getEstado() == null || destinoDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(destinoDTO.getEstado(), Constantes.TAMANNOESTADO) || 
-				!Utilities.isStringInteger(destinoDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(destinoDTO.getEstado())|| !Utilities.estadoAoI(destinoDTO.getEstado())) {
+			throw new Exception("Estado invalido, debe ser A o I.");
 		}
 		
 		if (destinoDTO.getFechaCreacion() == null) {

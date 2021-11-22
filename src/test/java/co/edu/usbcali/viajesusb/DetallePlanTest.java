@@ -10,12 +10,18 @@
 
 package co.edu.usbcali.viajesusb;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+
+import co.edu.usbcali.viajesusb.domain.DetallePlan;
 import co.edu.usbcali.viajesusb.dto.DetallePlanDTO;
 import co.edu.usbcali.viajesusb.service.DetallePlanService;
 import co.edu.usbcali.viajesusb.utils.Constantes;
@@ -38,7 +44,7 @@ class DetallePlanTest {
 	 */
 	@Autowired
 	private DetallePlanService detallePlanService;
-	//private DetallePlan detallePLan = null;
+	//private DetallePlan detallePlan = null;
 	
 	@Test
 	@Transactional
@@ -114,6 +120,55 @@ class DetallePlanTest {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Test
+	@Transactional
+	void consultarCantidadNoches() {
+		List<DetallePlan>listaDetalle = null;
+		try {
+			listaDetalle = detallePlanService.findByCantidadNoches(0);
+			for(DetallePlan detallePlan : listaDetalle) {
+				System.out.println(detallePlan.getIdDetallePlan()+ "-"+ detallePlan.getCantidadNoches()+"-"+ detallePlan.getEstado());			
+			}
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	@Transactional
+	void consultarPorValor() {
+		List<DetallePlan>listaDetalle = null;
+		try {
+			listaDetalle = detallePlanService.findByValor(0.0);
+			for(DetallePlan detallePlan : listaDetalle) {
+				System.out.println(detallePlan.getIdDetallePlan()+ "-"+ detallePlan.getCantidadNoches()+"-"+ detallePlan.getCantidadDias() + "-" + detallePlan.getValor()+"-"+ detallePlan.getEstado());			
+			}
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	@Transactional
+	void consultarPorEstado() {
+		Page<DetallePlan>paginaDetalle = null;
+		try {
+			Pageable pageable = PageRequest.of(0, 1);
+			paginaDetalle = detallePlanService.findByEstado(Constantes.ACTIVO,pageable );
+			for(DetallePlan detallePlan : paginaDetalle.getContent()) {
+				System.out.println(detallePlan.getIdDetallePlan()+ "-"+ detallePlan.getCantidadNoches()+"-"+ detallePlan.getCantidadDias() + "-" + detallePlan.getValor()+"-"+ detallePlan.getEstado());			
+			}
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 	

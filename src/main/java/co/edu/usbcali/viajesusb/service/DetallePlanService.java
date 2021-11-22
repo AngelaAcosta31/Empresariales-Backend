@@ -11,6 +11,11 @@
 package co.edu.usbcali.viajesusb.service;
 
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import co.edu.usbcali.viajesusb.domain.DetallePlan;
 import co.edu.usbcali.viajesusb.dto.DetallePlanDTO;
 
@@ -47,5 +52,19 @@ public interface DetallePlanService {
 	
 	public void eliminarDetallePlan(Long idDetallePlan)throws Exception;
 	public DetallePlan findById(Long idDepl) throws Exception;
+
+	/**   
+	 * @Title: findByCantidadNoches   
+	   * @Description: TODO 
+	 * @param: @param noches
+	 * @param: @return
+	 * @param: @throws Exception      
+	 * @return: DetallePlan      
+	 * @throws   
+	 */
+	
+	public List <DetallePlan> findByCantidadNoches(Integer noches) throws Exception;
+	public List <DetallePlan> findByValor(Double valor)throws Exception;
+	public Page <DetallePlan> findByEstado(String estado, Pageable pageable)throws Exception;
 
 }

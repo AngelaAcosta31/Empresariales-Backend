@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
 
 import co.edu.usbcali.viajesusb.domain.DetallePlan;
 import co.edu.usbcali.viajesusb.dto.DetallePlanDTO;
@@ -45,4 +46,6 @@ public interface DetallePlanMapper {
 	@Mapping(source ="destino.nombre", target="nombreDestino")
     public List<DetallePlanDTO> listDetallePlanToListDetallePlanDTO(List<DetallePlan> detallePlanes);
    
+	public List<DetallePlanDTO> listDetallePlanToListDetallePlanDTO(Page<DetallePlan> detallePlanes);
+	   
 }

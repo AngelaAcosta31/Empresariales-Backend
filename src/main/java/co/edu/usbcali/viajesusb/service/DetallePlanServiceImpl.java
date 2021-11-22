@@ -10,10 +10,13 @@
 
 package co.edu.usbcali.viajesusb.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import co.edu.usbcali.viajesusb.domain.Destino;
 import co.edu.usbcali.viajesusb.domain.DetallePlan;
@@ -62,29 +65,29 @@ public class DetallePlanServiceImpl implements DetallePlanService {
 
 		if (detallePlanDTO.getAlimentacion() == null || detallePlanDTO.getAlimentacion().trim().equals("")
 				|| Utilities.isStringLenght(detallePlanDTO.getAlimentacion(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(detallePlanDTO.getAlimentacion())) {
-			throw new Exception("Campo de alimentacion es invalido");
+				!Utilities.isStringInteger(detallePlanDTO.getAlimentacion())|| !Utilities.soN(detallePlanDTO.getAlimentacion())) {
+			throw new Exception("Campo de alimentacion es invalido, debe ingresar S o N");
 		}
 		if (detallePlanDTO.getHospedaje() == null || detallePlanDTO.getHospedaje().trim().equals("")
 				|| Utilities.isStringLenght(detallePlanDTO.getHospedaje(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(detallePlanDTO.getHospedaje())) {
-			throw new Exception("Campo de hospedaje es invalido");
+				!Utilities.isStringInteger(detallePlanDTO.getHospedaje())||!Utilities.soN(detallePlanDTO.getHospedaje())) {
+			throw new Exception("Campo de hospedaje es invalido, debe ingresar S o N");
 		}
 		if (detallePlanDTO.getTransporte() == null || detallePlanDTO.getTransporte().trim().equals("")
 				|| Utilities.isStringLenght(detallePlanDTO.getTransporte(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(detallePlanDTO.getTransporte())) {
-			throw new Exception("Campo de transporte es invalido");
+				!Utilities.isStringInteger(detallePlanDTO.getTransporte())||!Utilities.soN(detallePlanDTO.getTransporte())) {
+			throw new Exception("Campo de transporte es invalido, debe ingresar S o N");
 		}
 		if (detallePlanDTO.getTraslados() == null || detallePlanDTO.getTraslados().trim().equals("")
 				|| Utilities.isStringLenght(detallePlanDTO.getTraslados(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(detallePlanDTO.getTraslados())) {
-			throw new Exception("Campo de traslados es invalido");
+				!Utilities.isStringInteger(detallePlanDTO.getTraslados())||!Utilities.soN(detallePlanDTO.getTraslados())) {
+			throw new Exception("Campo de traslados es invalido, debe ingresar S o N");
 		}
 		if (detallePlanDTO.getValor() <= 0.0) {
 			throw new Exception("Valor no puede ser menor o igual a 0");
 		}
-		if (detallePlanDTO.getCantidadNoches() <= 0) {
-			throw new Exception("Cantidad de noches no puede ser menor o igual a 0");
+		if (detallePlanDTO.getCantidadNoches() < 0) {
+			throw new Exception("Cantidad de noches no puede ser menor a 0");
 		}
 		if (detallePlanDTO.getCantidadDias() <= 0) {
 			throw new Exception("Cantidad de días no puede ser menor o igual a 0");
@@ -101,8 +104,8 @@ public class DetallePlanServiceImpl implements DetallePlanService {
 		}
 		if (detallePlanDTO.getEstado() == null || detallePlanDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(detallePlanDTO.getEstado(), Constantes.TAMANNOESTADO) || 
-				!Utilities.isStringInteger(detallePlanDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(detallePlanDTO.getEstado())|| !Utilities.estadoAoI(detallePlanDTO.getEstado())) {
+			throw new Exception("Estado invalido, solo se acpeta A o I.");
 		}
 		// se crea el detalle plan
 		detallePlan = new DetallePlan(); 
@@ -156,29 +159,29 @@ public class DetallePlanServiceImpl implements DetallePlanService {
 		}
 		if (detallePlanDTO.getAlimentacion() == null || detallePlanDTO.getAlimentacion().trim().equals("")
 				|| Utilities.isStringLenght(detallePlanDTO.getAlimentacion(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(detallePlanDTO.getAlimentacion())) {
-			throw new Exception("Campo de alimentacion es invalido");
+				!Utilities.isStringInteger(detallePlanDTO.getAlimentacion())|| !Utilities.soN(detallePlanDTO.getAlimentacion())) {
+			throw new Exception("Campo de alimentacion es invalido, debe ingresar S o N.");
 		}
 		if (detallePlanDTO.getHospedaje() == null || detallePlanDTO.getHospedaje().trim().equals("")
 				|| Utilities.isStringLenght(detallePlanDTO.getHospedaje(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(detallePlanDTO.getHospedaje())) {
-			throw new Exception("Campo de hospedaje es invalido");
+				!Utilities.isStringInteger(detallePlanDTO.getHospedaje())||!Utilities.soN(detallePlanDTO.getHospedaje())) {
+			throw new Exception("Campo de hospedaje es invalido, debe ingresar S o N.");
 		}
 		if (detallePlanDTO.getTransporte() == null || detallePlanDTO.getTransporte().trim().equals("")
 				|| Utilities.isStringLenght(detallePlanDTO.getTransporte(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(detallePlanDTO.getTransporte())) {
-			throw new Exception("Campo de transporte es invalido");
+				!Utilities.isStringInteger(detallePlanDTO.getTransporte())||!Utilities.soN(detallePlanDTO.getTransporte())) {
+			throw new Exception("Campo de transporte es invalido, debe ingresar S o N.");
 		}
 		if (detallePlanDTO.getTraslados() == null || detallePlanDTO.getTraslados().trim().equals("")
 				|| Utilities.isStringLenght(detallePlanDTO.getTraslados(), Constantes.TAMANNOPCVIAJE)||
-				!Utilities.isStringInteger(detallePlanDTO.getTraslados())) {
-			throw new Exception("Campo de traslados es invalido");
+				!Utilities.isStringInteger(detallePlanDTO.getTraslados())||!Utilities.soN(detallePlanDTO.getTraslados())) {
+			throw new Exception("Campo de traslados es invalido, debe ingresar S o N.");
 		}
 		if (detallePlanDTO.getValor() <= 0.0) {
 			throw new Exception("Valor no puede ser menor o igual a 0");
 		}
-		if (detallePlanDTO.getCantidadNoches() <= 0) {
-			throw new Exception("Cantidad de noches no puede ser menor o igual a 0");
+		if (detallePlanDTO.getCantidadNoches() < 0) {
+			throw new Exception("Cantidad de noches no puede ser menor a 0");
 		}
 		if (detallePlanDTO.getCantidadDias() <= 0) {
 			throw new Exception("Cantidad de días no puede ser menor o igual a 0");
@@ -195,8 +198,8 @@ public class DetallePlanServiceImpl implements DetallePlanService {
 		}
 		if (detallePlanDTO.getEstado() == null || detallePlanDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(detallePlanDTO.getEstado(), Constantes.TAMANNOESTADO) || 
-				!Utilities.isStringInteger(detallePlanDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(detallePlanDTO.getEstado())|| !Utilities.estadoAoI(detallePlanDTO.getEstado())) {
+			throw new Exception("Estado invalido, solo se acpeta A o I.");
 		}
 		//SE BUSCA EL ID
 		detallePlan = findById(detallePlanDTO.getIdDetallePlan()); 
@@ -251,4 +254,63 @@ public class DetallePlanServiceImpl implements DetallePlanService {
 		}
 	}
 
+	@Override
+	public List<DetallePlan> findByCantidadNoches(Integer noches)throws Exception{
+		List<DetallePlan> listaDetalle = null;
+		if(noches==null) {
+			throw new Exception("Debe ingresar el numero de noches.");
+		}
+		if(noches <0) {
+			throw new Exception("Debe ingresar numeros positivos.");
+		}
+		listaDetalle = detallePlanRepository.findByCantidadNoches(noches);
+		if(listaDetalle.isEmpty()) {
+			throw new Exception("No se encontraron detalles de plan con esa cantidad de noches.");
+		}
+		return listaDetalle;
+	}
+	
+	/**   
+	 * <p>Title: findByValor</p>   
+	 * <p>Description: busca por valor del plan </p>   
+	 * @param valor
+	 * @return
+	 * @throws Exception      
+	 */
+	
+	@Override
+	public List<DetallePlan> findByValor(Double valor) throws Exception {
+		List<DetallePlan> listaDetalle = null;
+		if(valor==null) {
+			throw new Exception("Debe ingresar un valor");
+		}
+		if(valor <0) {
+			throw new Exception("Debe ingresar valores positivos.");
+		}
+		listaDetalle = detallePlanRepository.findByValor(valor);
+		return listaDetalle;
+	}
+	
+	@Override
+	public Page<DetallePlan> findByEstado(String estado, Pageable pageable) throws Exception {
+		Page<DetallePlan> paginacionDetalle = null;
+		if(estado==null || estado.trim().equals("")) {
+			throw new Exception("Debe ingresar un estado");
+		}
+		if(Utilities.isStringLenght(estado, Constantes.TAMANNOESTADO)) {
+			throw new Exception("Debe ingresar solo un caracter.");
+		}
+		if(!Utilities.isStringInteger(estado)) {
+			throw new Exception("El estado no debe ser un número.");
+		}
+
+		paginacionDetalle = detallePlanRepository.findByEstado(estado.toUpperCase(),pageable);
+		if(paginacionDetalle.isEmpty()) {
+			throw new Exception("No se han encontrado detalles de planes con el estado ingresado.");
+		}
+		return paginacionDetalle;
+	}
+	
+	
+	
 }

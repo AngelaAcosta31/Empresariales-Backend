@@ -375,18 +375,21 @@ public class ClienteServiceImpl implements ClienteService {
 			throw new Exception("Digite un nombre valido.");
 		}
 	    if (Utilities.isStringLenght(clienteDTO.getTelefono1(), Constantes.TAMANOTELEFONOS) 
-	    		|| Utilities.isStringInteger(clienteDTO.getTelefono1())|| Utilities.isSpecialCaracter(clienteDTO.getTelefono1())) {
+	    		|| (Utilities.notStringInteger(clienteDTO.getTelefono1()))|| Utilities.isSpecialCaracter(clienteDTO.getTelefono1())) {
 			throw new Exception("Digite un numero de telefono No.1 valido.");
 		}
 	    if (Utilities.isStringLenght(clienteDTO.getTelefono2(), Constantes.TAMANOTELEFONOS) 
-	    		|| Utilities.isStringInteger(clienteDTO.getTelefono2())|| Utilities.isSpecialCaracter(clienteDTO.getTelefono2())) {
+	    		|| (Utilities.notStringInteger(clienteDTO.getTelefono2()))|| Utilities.isSpecialCaracter(clienteDTO.getTelefono2())) {
 			throw new Exception("Digite un numero de telefono No.2 valido.");
 		}
 	    if (clienteDTO.getCorreo() == null || clienteDTO.getCorreo().trim().equals("")
 				|| Utilities.isStringLenght(clienteDTO.getCorreo(), Constantes.TAMANOCORREO)
-				|| !Utilities.formatoCorreoValido(clienteDTO.getCorreo())) {
+				) {
 			throw new Exception("Introduzca un correo valido.");
 		}
+	    if(!Utilities.formatoCorreoValido(clienteDTO.getCorreo())) {
+	    	throw new Exception("Introduzca un correo valido.");
+	    }
 		if (clienteDTO.getSexo() == null || clienteDTO.getSexo().trim().equals("") ||
 				Utilities.isStringLenght(clienteDTO.getSexo(), Constantes.TAMANNOSEXO) || !Utilities.isStringInteger(clienteDTO.getSexo())) {
 			throw new Exception("Digite un sexo valido (M/F)");
@@ -402,7 +405,8 @@ public class ClienteServiceImpl implements ClienteService {
 			throw new Exception("Usuario creador invalido.");
 		}
 		if (clienteDTO.getEstado() == null || clienteDTO.getEstado().trim().equals("") || 
-				Utilities.isStringLenght(clienteDTO.getEstado(), Constantes.TAMANNOESTADO) || !Utilities.isStringInteger(clienteDTO.getEstado())) {
+				Utilities.isStringLenght(clienteDTO.getEstado(), Constantes.TAMANNOESTADO) 
+				|| !Utilities.isStringInteger(clienteDTO.getEstado())|| !Utilities.estadoAoI(clienteDTO.getEstado())) {
 			throw new Exception("Estado invalido.");
 		}
 		
@@ -496,7 +500,8 @@ public class ClienteServiceImpl implements ClienteService {
 			throw new Exception("Usuario creador invalido.");
 		}
 		if (clienteDTO.getEstado() == null || clienteDTO.getEstado().trim().equals("") || 
-				Utilities.isStringLenght(clienteDTO.getEstado(), Constantes.TAMANNOESTADO) || !Utilities.isStringInteger(clienteDTO.getEstado())) {
+				Utilities.isStringLenght(clienteDTO.getEstado(), Constantes.TAMANNOESTADO) || 
+				!Utilities.isStringInteger(clienteDTO.getEstado())|| !Utilities.estadoAoI(clienteDTO.getEstado())) {
 			throw new Exception("Estado invalido.");
 		}
 		

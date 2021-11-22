@@ -11,6 +11,7 @@
 package co.edu.usbcali.viajesusb.service;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,8 +46,7 @@ public class TipoDestinoServiceImpl implements TipoDestinoService {
 	public TipoDestino findById(Long idtide) throws Exception{
 		//validamos el id tipo destino venga con info
 		if(idtide ==null) {
-			throw new Exception("Debe ingresar un ID tipo destino");
-			
+			throw new Exception("Debe ingresar un ID tipo destino");	
 		}
 		if(!tipoDestinoRepository.findById(idtide).isPresent()) {
 			throw new Exception ("El tipo destino con id: "+idtide+ " no existe");
@@ -182,7 +182,7 @@ public class TipoDestinoServiceImpl implements TipoDestinoService {
 				|| Utilities.isStringLenght(tipoDestinoDTO.getDescripcion(), Constantes.TAMANODESCRIPCION)) {
 			throw new Exception("Digite una descripcion valida.");
 		}
-		if (tipoDestinoDTO.getFechaCreacion() == null) {
+		if (tipoDestinoDTO.getFechaCreacion() == null || (tipoDestinoDTO.getFechaCreacion().compareTo(new Date())>0)) {
 			throw new Exception("Debe ingresar una fecha de creacion valida.");
 		}
 		if (tipoDestinoDTO.getUsuCreador() == null || tipoDestinoDTO.getUsuCreador().trim().equals("") 
@@ -191,8 +191,8 @@ public class TipoDestinoServiceImpl implements TipoDestinoService {
 		}
 		if (tipoDestinoDTO.getEstado() == null || tipoDestinoDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(tipoDestinoDTO.getEstado(), Constantes.TAMANNOESTADO) || 
-				!Utilities.isStringInteger(tipoDestinoDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(tipoDestinoDTO.getEstado())|| !Utilities.estadoAoI(tipoDestinoDTO.getEstado())) {
+			throw new Exception("Estado invalido, debe ser A o I.");
 		}
 		
 		// se crea el tipo de destino
@@ -249,8 +249,8 @@ public class TipoDestinoServiceImpl implements TipoDestinoService {
 		}
 		if (tipoDestinoDTO.getEstado() == null || tipoDestinoDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(tipoDestinoDTO.getEstado(), Constantes.TAMANNOESTADO) || 
-				!Utilities.isStringInteger(tipoDestinoDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(tipoDestinoDTO.getEstado())|| !Utilities.estadoAoI(tipoDestinoDTO.getEstado())) {
+			throw new Exception("Estado invalido, debe ser A o I.");
 		}
 		
 		tipoDestino = findById(tipoDestinoDTO.getIdTide());

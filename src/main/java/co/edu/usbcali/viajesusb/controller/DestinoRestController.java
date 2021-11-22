@@ -51,6 +51,7 @@ public class DestinoRestController {
 	private DestinoMapper destinoMapper;
 //	@Autowired
 //	private TipoDestinoService tipoDestinoService;
+	String mensaje;
 	
 	@PostMapping("/guardarDestino")
 	public ResponseEntity<DestinoDTO> guardarDestino(@RequestBody DestinoDTO destinoDTO){
@@ -58,7 +59,9 @@ public class DestinoRestController {
 			Destino destino = destinoService.guardarDestino(destinoDTO);
 			return ResponseEntity.ok(destinoMapper.destinoToDestinoDTO(destino));
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			//return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -70,7 +73,8 @@ public class DestinoRestController {
 			return ResponseEntity.ok(destinoMapper.destinoToDestinoDTO(destino));
 		} catch (Exception e) {
 			// TODO: handle exception
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -80,7 +84,8 @@ public class DestinoRestController {
 			destinoService.eliminarDestino(id);
 			return ResponseEntity.ok("Se eliminó satisfactoriamente");
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -103,24 +108,26 @@ public class DestinoRestController {
 			return ResponseEntity.ok().body(destinoMapper.listDestinoToListDestinoDTO(listaDestino));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}
 	
 	@GetMapping("/verPorEstado")
-	public ResponseEntity<List<DestinoDTO>> buscarPorEstado(@RequestParam("estado") String estado){
+	public ResponseEntity<List<DestinoDTO>> buscarPorEstado(@RequestParam("estado") String estado, Integer paginaInicio, Integer paginaFin){
 	
 		try {
-			int paginaInicio = 1;
-			int paginaFinal = 3;
-			Pageable pageable = PageRequest.of(paginaInicio,paginaFinal );
+			//int paginaInicio = 1;
+			//int paginaFinal = 3;
+			Pageable pageable = PageRequest.of(paginaInicio,paginaFin );
 			
-			Page<Destino> listaDestino= destinoService.findByEstado(estado,pageable);
-			return ResponseEntity.ok().body(destinoMapper.listaDestinoToListDestinoDTO(listaDestino));
+			Page<Destino> paginaDestino= destinoService.findByEstado(estado,pageable);
+			return ResponseEntity.ok().body(destinoMapper.listaDestinoToListDestinoDTO(paginaDestino));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -132,7 +139,8 @@ public class DestinoRestController {
 			return ResponseEntity.ok().body(destinoMapper.destinoToDestinoDTO(destino));
 		} catch (Exception e) {
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}
@@ -145,7 +153,8 @@ public class DestinoRestController {
 		} catch (Exception e) {
 			
 			//retorna un error 500
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			mensaje = e.getMessage();
+			return new ResponseEntity(mensaje, HttpStatus.BAD_REQUEST);
 			
 		}
 	}

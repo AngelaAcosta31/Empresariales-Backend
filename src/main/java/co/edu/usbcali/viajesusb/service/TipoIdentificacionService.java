@@ -106,6 +106,7 @@ public interface TipoIdentificacionService {
 	 */
 	
 	public void eliminarTipoIdentificacion(Long ti_dee) throws Exception;
+	public List<TipoIdentificacion> findByNombreIgnoreCase(String nombre) throws Exception;
 
 	
 
