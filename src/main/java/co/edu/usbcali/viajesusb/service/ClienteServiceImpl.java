@@ -46,7 +46,7 @@ public class ClienteServiceImpl implements ClienteService {
 	public Cliente findById(Long idCliente) throws Exception{
 		//validamos el numero de identificacion
 		if(idCliente == null) {
-			throw new Exception("Debe ingresar un numero de identificacion");
+			throw new Exception("Debe ingresar un id");
 			
 		}
 		if(!clienteRepository.findById(idCliente).isPresent()) {
@@ -125,7 +125,7 @@ public class ClienteServiceImpl implements ClienteService {
 		if(Utilities.isStringLenght(numeroIdentificacion,Constantes.TAMANOIDENTIFICACION)) {
 			throw new Exception("El numero no debe contener más de 15 digitos.");
 		}
-		if(Utilities.isStringInteger(numeroIdentificacion)) {
+		if(!Utilities.isNumeric(numeroIdentificacion)) {
 			throw new Exception("El número de identificación debe ser solo números, no letras.");
 		}
 		
@@ -148,7 +148,7 @@ public class ClienteServiceImpl implements ClienteService {
 		if(Utilities.isStringLenght(numeroIdentificacion,Constantes.TAMANOIDENTIFICACION)) {
 			throw new Exception("El numero no debe contener más de 15 digitos.");
 		}
-		if(Utilities.isStringInteger(numeroIdentificacion)) {
+		if(!Utilities.isNumeric(numeroIdentificacion)) {
 			throw new Exception("El número de identificación debe ser solo números, no letras.");
 		}
 		
@@ -375,23 +375,21 @@ public class ClienteServiceImpl implements ClienteService {
 			throw new Exception("Digite un nombre valido.");
 		}
 	    if (Utilities.isStringLenght(clienteDTO.getTelefono1(), Constantes.TAMANOTELEFONOS) 
-	    		|| (Utilities.notStringInteger(clienteDTO.getTelefono1()))|| Utilities.isSpecialCaracter(clienteDTO.getTelefono1())) {
+	    		|| !Utilities.isNumeric(clienteDTO.getTelefono1())|| Utilities.isSpecialCaracter(clienteDTO.getTelefono1())) {
 			throw new Exception("Digite un numero de telefono No.1 valido.");
 		}
 	    if (Utilities.isStringLenght(clienteDTO.getTelefono2(), Constantes.TAMANOTELEFONOS) 
-	    		|| (Utilities.notStringInteger(clienteDTO.getTelefono2()))|| Utilities.isSpecialCaracter(clienteDTO.getTelefono2())) {
+	    		|| !Utilities.isNumeric(clienteDTO.getTelefono2())|| Utilities.isSpecialCaracter(clienteDTO.getTelefono2())) {
 			throw new Exception("Digite un numero de telefono No.2 valido.");
 		}
 	    if (clienteDTO.getCorreo() == null || clienteDTO.getCorreo().trim().equals("")
 				|| Utilities.isStringLenght(clienteDTO.getCorreo(), Constantes.TAMANOCORREO)
-				) {
+				|| !Utilities.formatoCorreoValido(clienteDTO.getCorreo())) {
 			throw new Exception("Introduzca un correo valido.");
 		}
-	    if(!Utilities.formatoCorreoValido(clienteDTO.getCorreo())) {
-	    	throw new Exception("Introduzca un correo valido.");
-	    }
 		if (clienteDTO.getSexo() == null || clienteDTO.getSexo().trim().equals("") ||
-				Utilities.isStringLenght(clienteDTO.getSexo(), Constantes.TAMANNOSEXO) || !Utilities.isStringInteger(clienteDTO.getSexo())) {
+				Utilities.isStringLenght(clienteDTO.getSexo(), Constantes.TAMANNOSEXO) || 
+				!Utilities.isStringInteger(clienteDTO.getSexo()) || !Utilities.foM(clienteDTO.getSexo())) {
 			throw new Exception("Digite un sexo valido (M/F)");
 		}
 		if (clienteDTO.getFechaNacimiento() == null || (clienteDTO.getFechaNacimiento().compareTo(new Date())>0)){
@@ -451,8 +449,7 @@ public class ClienteServiceImpl implements ClienteService {
 		
 		// Aqui_van_validaciones
 	    if (clienteDTO.getIdCliente() == null) {
-			throw new Exception("Debe ingresar un id de cliente valido para actualizar.");
-			
+			throw new Exception("Debe ingresar un id de cliente valido para actualizar.");	
 		}
 	    
 	    Optional <Cliente> clienteDB = Optional.of(findById(clienteDTO.getIdCliente()));
@@ -460,6 +457,9 @@ public class ClienteServiceImpl implements ClienteService {
 	    if (clienteDB.isEmpty()) {
 			throw new Exception("No existe un cliente con ese Id.");
 		}
+	    if(!Utilities.isNumeric(clienteDTO.getNumeroIdentificacion())) {
+	    	throw new Exception("El numero de identificación no debe contener letras");
+	    }
 	    if (clienteDTO.getPrimerApellido() == null || clienteDTO.getPrimerApellido().trim().equals("")
 				|| Utilities.isStringLenght(clienteDTO.getPrimerApellido(), Constantes.TAMANOAPELLIDOS)) {
 			throw new Exception("Introduzca un primer apellido valido.");
@@ -473,12 +473,12 @@ public class ClienteServiceImpl implements ClienteService {
 			throw new Exception("Digite un nombre valido.");
 		}
 	    if (Utilities.isStringLenght(clienteDTO.getTelefono1(), Constantes.TAMANOTELEFONOS) 
-	    		|| Utilities.isStringInteger(clienteDTO.getTelefono1())|| Utilities.isSpecialCaracter(clienteDTO.getTelefono1())) {
-			throw new Exception("Digite un numero de telefono valido.");
+	    		|| !Utilities.isNumeric(clienteDTO.getTelefono1())|| Utilities.isSpecialCaracter(clienteDTO.getTelefono1())) {
+			throw new Exception("Digite un numero de telefono 1 valido.");
 		}
 	    if (Utilities.isStringLenght(clienteDTO.getTelefono2(), Constantes.TAMANOTELEFONOS) 
-	    		|| Utilities.isStringInteger(clienteDTO.getTelefono2())|| Utilities.isSpecialCaracter(clienteDTO.getTelefono2())) {
-			throw new Exception("Digite un numero de telefono valido.");
+	    		|| !Utilities.isNumeric(clienteDTO.getTelefono2())|| Utilities.isSpecialCaracter(clienteDTO.getTelefono2())) {
+			throw new Exception("Digite un numero de telefono 2 valido.");
 		}
 	    if (clienteDTO.getCorreo() == null || clienteDTO.getCorreo().trim().equals("")
 				|| Utilities.isStringLenght(clienteDTO.getCorreo(), Constantes.TAMANOCORREO)
@@ -486,7 +486,8 @@ public class ClienteServiceImpl implements ClienteService {
 			throw new Exception("Introduzca un correo valido.");
 		}
 		if (clienteDTO.getSexo() == null || clienteDTO.getSexo().trim().equals("") ||
-				Utilities.isStringLenght(clienteDTO.getSexo(), Constantes.TAMANNOSEXO) || !Utilities.isStringInteger(clienteDTO.getSexo())) {
+				Utilities.isStringLenght(clienteDTO.getSexo(), Constantes.TAMANNOSEXO) ||
+				!Utilities.isStringInteger(clienteDTO.getSexo())|| !Utilities.foM(clienteDTO.getSexo())) {
 			throw new Exception("Digite un sexo valido (M/F)");
 		}
 		if (clienteDTO.getFechaNacimiento() == null || (clienteDTO.getFechaNacimiento().compareTo(new Date())>0)){
@@ -498,6 +499,10 @@ public class ClienteServiceImpl implements ClienteService {
 		if (clienteDTO.getUsuCreador() == null || clienteDTO.getUsuCreador().trim().equals("") 
 				||Utilities.isStringLenght(clienteDTO.getUsuCreador(), Constantes.TAMANOUSU)) {
 			throw new Exception("Usuario creador invalido.");
+		}
+		if (clienteDTO.getUsuModificador() == null || clienteDTO.getUsuModificador().trim().equals("") 
+				||Utilities.isStringLenght(clienteDTO.getUsuModificador(), Constantes.TAMANOUSU)) {
+			throw new Exception("Usuario modificador invalido.");
 		}
 		if (clienteDTO.getEstado() == null || clienteDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(clienteDTO.getEstado(), Constantes.TAMANNOESTADO) || 
@@ -584,7 +589,7 @@ public class ClienteServiceImpl implements ClienteService {
 		if(Utilities.isStringLenght(numeroIdentificacionCliente,Constantes.TAMANOIDENTIFICACION)||Utilities.isStringLenght(estado,Constantes.TAMANNOESTADO)) {
 			throw new Exception("El numero de identificacion no puede contener más de 15 caracteres y el estado un solo caracter.");
 		}
-		if(Utilities.isStringInteger(numeroIdentificacionCliente)|!Utilities.isStringInteger(estado)) {
+		if(!Utilities.isNumeric(numeroIdentificacionCliente)|Utilities.isNumeric(estado)) {
 			throw new Exception("Debe ingresar numeros para la identificacion y una letra para el estado.");
 		}
 		

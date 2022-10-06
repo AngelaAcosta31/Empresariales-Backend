@@ -65,12 +65,20 @@ public class Utilities {
 		
 	}
 	public static boolean notStringInteger(String palabra) {
-		String n = ".*[A-Z].*";
+		String n = ".*[0-9].*";
 		return palabra.matches(n);
 	}
 	
 	public static boolean soN(String palabra) {
 		if(palabra.equalsIgnoreCase("s") || palabra.equalsIgnoreCase("n")) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	public static boolean foM(String palabra) {
+		if(palabra.equalsIgnoreCase("f") || palabra.equalsIgnoreCase("m")) {
 			return true;
 		}else {
 			return false;
@@ -212,9 +220,9 @@ public class Utilities {
 	}
 	public static boolean formatoCorreoValido(String correo) {
 		boolean res = false;
-		Pattern pat = Pattern.compile("/^[-\\\\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\\\\.){1,125}[A-Z]{2,63}$/i");
+		Pattern pat = Pattern.compile("^[^@]+@[^@]+\\.[a-zA-Z]{2,}$");
 		Matcher mat = pat.matcher(correo);
-		if(!mat.find()) {
+		if(mat.find()) {
 			res = true;
 		}
 		return res;

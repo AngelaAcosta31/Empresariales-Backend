@@ -110,16 +110,22 @@ public class PlanServiceImpl implements PlanService{
 			throw new Exception("Debe ingresar valores positivos.");
 		}
 		listaPlan = planRepository.findByValorTotal(valorTotal);
+		if(listaPlan.isEmpty()) {
+			throw new Exception("No se encontraron planes con ese valor.");
+		}
 		return listaPlan;
 	}
 	
 	@Override
 	public List<Plan> findByCantidadPersonas(Integer personas) throws Exception {
 		List<Plan> listaPlan = null;
-		if(personas <0) {
-			throw new Exception("Debe ingresar valores positivos.");
+		if(personas <=0) {
+			throw new Exception("Debe ingresar valores positivos y mayores que 0.");
 		}
 		listaPlan = planRepository.findByCantidadPersonas(personas);
+		if(listaPlan.isEmpty()) {
+			throw new Exception("No se encontraron planes con esa cantidad de personas.");
+		}
 		return listaPlan;
 	}
 	
@@ -152,7 +158,7 @@ public class PlanServiceImpl implements PlanService{
 			throw new Exception("Digite una descripcion valida.");
 		}
 		if (planDTO.getCantidadPersonas() <= 0) {
-			throw new Exception("Cantidad de noches no puede ser menor o igual a 0");
+			throw new Exception("Cantidad de  no puede ser menor o igual a 0");
 		}
 		if (planDTO.getFechaSolicitud() == null) {
 			throw new Exception("Debe ingresar una fecha de solicitud valida.");
@@ -163,8 +169,8 @@ public class PlanServiceImpl implements PlanService{
 		if (planDTO.getFechaFinViaje() == null) {
 			throw new Exception("Debe ingresar una fecha de fin de viaje valida.");
 		}
-		if (planDTO.getFechaFinViaje().compareTo(planDTO.getFechaSolicitud())<=0) {
-			throw new Exception("Debe ingresar una fecha valida, la fecha del viaje FIN no puede ser antes de la fecha de solicitud.");
+		if (planDTO.getFechaInicioViaje().compareTo(planDTO.getFechaSolicitud())<=0) {
+			throw new Exception("Debe ingresar una fecha valida, la fecha de solicitud no puede ser despues de la fecha de viaje.");
 		}
 		if (planDTO.getFechaFinViaje().compareTo(planDTO.getFechaInicioViaje())<0) {
 			throw new Exception("Debe ingresar una fecha valida, la fecha de inicial del viaje no puede ser despues de la fecha final.");
@@ -181,8 +187,8 @@ public class PlanServiceImpl implements PlanService{
 		}
 		if (planDTO.getEstado() == null || planDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(planDTO.getEstado(), Constantes.TAMANNOESTADO) ||
-				!Utilities.isStringInteger(planDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(planDTO.getEstado())|| !Utilities.estadoAoI(planDTO.getEstado())) {
+			throw new Exception("Estado invalido, solo se acepta A o I.");
 		}
 		
 		//Se crea el plan
@@ -265,7 +271,7 @@ public class PlanServiceImpl implements PlanService{
 		if (planDTO.getFechaFinViaje().compareTo(planDTO.getFechaInicioViaje())<0) {
 			throw new Exception("Debe ingresar una fecha valida, la fecha de inicial del viaje no puede ser despues de la fecha final.");
 		}
-		if(planDTO.getValorTotal() == null || planDTO.getValorTotal()<0.0) {
+		if(planDTO.getValorTotal() == null || planDTO.getValorTotal()<=0.0) {
 			throw new Exception("Ingrese un valor total valido");
 		}
 		if (planDTO.getFechaCreacion() == null) {
@@ -277,8 +283,8 @@ public class PlanServiceImpl implements PlanService{
 		}
 		if (planDTO.getEstado() == null || planDTO.getEstado().trim().equals("") || 
 				Utilities.isStringLenght(planDTO.getEstado(), Constantes.TAMANNOESTADO) ||
-				!Utilities.isStringInteger(planDTO.getEstado())) {
-			throw new Exception("Estado invalido.");
+				!Utilities.isStringInteger(planDTO.getEstado())|| !Utilities.estadoAoI(planDTO.getEstado())) {
+			throw new Exception("Estado invalido, solo se acepta A o I.");
 		}
 		
 		plan = findById(planDTO.getIdPlan());

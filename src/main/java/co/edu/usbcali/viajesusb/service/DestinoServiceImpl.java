@@ -167,7 +167,7 @@ public class DestinoServiceImpl implements DestinoService {
 		}
 		destino = destinoRepository.findByCodigoAndEstado(codigo.toUpperCase(), estado.toUpperCase());
 		if(destino == null) {
-			throw new Exception("No se encontraron tipos de identificación con ese codigo y estado ingresados.");
+			throw new Exception("No se encontraron destinos con ese codigo y estado ingresados.");
 		}
 		return destino;
 	}
@@ -324,6 +324,10 @@ public class DestinoServiceImpl implements DestinoService {
 		
 		if (destinoDTO.getFechaCreacion() == null) {
 			throw new Exception("Debe ingresar una fecha de creacion valida.");
+		}
+		if (destinoDTO.getUsuModificador() == null || destinoDTO.getUsuModificador().trim().equals("") 
+				||Utilities.isStringLenght(destinoDTO.getUsuModificador(), Constantes.TAMANOUSU)) {
+			throw new Exception("Usuario modificador invalido.");
 		}
 		if (destinoDTO.getUsuCreador() == null || destinoDTO.getUsuCreador().trim().equals("") 
 				||Utilities.isStringLenght(destinoDTO.getUsuCreador(), Constantes.TAMANOUSU)) {

@@ -68,7 +68,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		if(Utilities.isStringLenght(identificacion, Constantes.TAMANOIDENTIFICACION)) {
 			throw new Exception("La identificación no debe tener más de 15 caracteres.");
 		}
-		if(Utilities.isStringInteger(identificacion)) {
+		if(!Utilities.isNumeric(identificacion)) {
 			throw new Exception("La identificación solo deben ser números.");
 		}
 		if(Utilities.isSpecialCaracter(identificacion)) {
@@ -168,7 +168,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 		if (usuarioDTO.getIdentificacion() == null || usuarioDTO.getIdentificacion().trim().equals("")
 				|| Utilities.isStringLenght(usuarioDTO.getIdentificacion(), Constantes.TAMANOIDENTIFICACION)
-				|| Utilities.isStringInteger(usuarioDTO.getIdentificacion()) ||Utilities.isSpecialCaracter(usuarioDTO.getIdentificacion())) {
+				|| !Utilities.isNumeric(usuarioDTO.getIdentificacion()) ||Utilities.isSpecialCaracter(usuarioDTO.getIdentificacion())) {
 			throw new Exception("Digite un numero de identificacion valido.");
 		}
 		if (usuarioDTO.getFechaCreacion() == null) {
@@ -229,7 +229,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 		}
 		if (usuarioDTO.getIdentificacion() == null || usuarioDTO.getIdentificacion().trim().equals("")
 				|| Utilities.isStringLenght(usuarioDTO.getIdentificacion(), Constantes.TAMANOIDENTIFICACION)
-				|| Utilities.isStringInteger(usuarioDTO.getIdentificacion()) ||Utilities.isSpecialCaracter(usuarioDTO.getIdentificacion())) {
+				|| !Utilities.isNumeric(usuarioDTO.getIdentificacion()) ||Utilities.isSpecialCaracter(usuarioDTO.getIdentificacion())) {
 			throw new Exception("Digite un numero de identificacion valido.");
 		}
 		if (usuarioDTO.getFechaCreacion() == null) {
