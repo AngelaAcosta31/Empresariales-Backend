@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+        http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd" version="2.2">
+        
+        <!-- Entidad_que_esta_mapeada_a_una_clase_del_paquete -->
+        <!-- Dentro van todos los query de esa entidad-->
+        <entity class="co.edu.usbcali.viajesusb.domain.Cliente">
+              
+             <!-- Por_estandar,_el_nombre_debe_estar_conformado_por_el_nombre_de_la_entidad (.) el_nombre_de_la_consulta -->
+             <named-native-query name="Cliente.consultarClientesPorNombre" result-set-mapping="consultarClientesPorNombre">
+             
+             <!-- La_consulta_tal_cual_como_la_haria_en_postgres,_para_detectar_el_parametro_en_el_where_se_pone_(:)_y_el_nombre_del_parametro
+             que_tiene_que_coincidir_con_el_nombre_del_parametro_con_la_anotacion @Param en_el repository -->
+             
+             <!--Consultar todos los clientes con los siguientes filtros: Estado, numero identificación, tipo de identificación, nombre (con Like) en orden ascendente. -->
+                <query>
+                select 
+                   numero_identificacion numeroIdentificacion,
+                   nombre nombreC,
+                   primer_apellido primerApellido,
+                   segundo_apellido segundoApellido,
+                   estado estado,
+                   id_tiid tipoIdentificacion
+                   from Cliente cl
+                   where cl.nombre like :pNombreC
+                   order by cl.nombre asc
+                   <!-- inner join tipo_identificacion ti
+                   on cl.id_tiid = ti.id_tiid -->
+                   
+            
+            </query>
+        
+        </named-native-query>
+        
+          
+        </entity>
+        
+        <entity class="co.edu.usbcali.viajesusb.domain.TipoDestino">
+        	<named-native-query name="TipoDestino.consultarTipoDestinoPorEstado" result-set-mapping="consultarTipoDestinoPorEstado">
+	        	<query>
+	        		select 
+	        			id_tide idTide,
+	        			codigo codigo,
+	        			nombre nombre,
+	        			descripcion descripcion
+	        			from tipo_destino tide
+	        			where tide.estado :pEstado
+	        	</query>
+        	</named-native-query>
+        </entity>
+        
+</entity-mappings>
